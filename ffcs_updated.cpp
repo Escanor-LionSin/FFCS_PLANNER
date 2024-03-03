@@ -5,6 +5,7 @@
 #include <string>
 #include <map>
 #include <set>
+#include <list>
 #include <algorithm>
 using namespace std;
 
@@ -56,20 +57,20 @@ map<string,pair<int,string>> mp;
 
 int main(){
 	vector<Subject>subjects;
-	string filenames[]={"computer_architecture","daa","microprocessors",
-	"probability_and_statistics","sts",
-	"theory_of_computation","web_programing","daa_lab","microprocessors_lab","probability_and_statistics_lab","web_programing_lab"};
-	mp["computer_architecture"]={3,"BCSE205L"};
-	mp["daa"]={3,"BCSE204L"};
-	mp["microprocessors"]={3,"BECE204L"};
-	mp["probability_and_statistics"]={3,"BMAT202L"};
-	mp["sts"]={1.5,"BSTS102P"};
-	mp["theory_of_computation"]={3,"BCSE304L"};
-	mp["web_programing"]={1,"BCSE203E"};
-	mp["daa_lab"]={1,"BCSE204P"};
-	mp["microprocessors_lab"]={1,"BECE204P"};
-	mp["probability_and_statistics_lab"]={1,"BMAT202P"};
-	mp["web_programing_lab"]={2,"BCSE203E"};
+	ifstream file("subject_data/subject_name_list.csv");
+	list<string> filenames;
+	if(file.is_open()){
+		string line1;
+		while(getline(file,line1)){
+			istringstream linestream(line1);
+			string name1,credit1,code1;
+			getline(linestream,name1,',');
+			getline(linestream,credit1,',');
+			getline(linestream,code1,',');
+			filenames.push_back(name1);
+			mp[name1]={stoi(credit1),code1};
+		}
+}
 	for (string subjectname:filenames){
 		string filename="subject_data/"+subjectname+".csv";
 		ifstream file(filename.c_str());
